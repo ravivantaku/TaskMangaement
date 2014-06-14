@@ -1,0 +1,23 @@
+{
+  "name": "jquerySample",
+  "version": "0.0.1",
+  "authors": [
+    "Ravi <vravimca2011@gmail.com>"
+  ],
+  "description": "bower tasks for jquery app",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.1.1",
+    "jquery-ui": "~1.10.4",
+    "lodash": "~2.4.1"
+  }
+}
