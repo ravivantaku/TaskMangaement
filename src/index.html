@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management</title>
+    <link href="lib.min.css" rel="stylesheet" media="screen"/>
+    <link href="all.min.css" rel="stylesheet"/>
+    <script src="lib.min.js"></script>
+    <script src="all.min.js"></script>
+</head>
+<body>
+    <header>
+		<nav class="navbar-inverse navbar-static-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Task Management</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a id="dashboardbtn" href="#" class="navbar-link">Dashboard</a></li>
+					<li><a id="createtaskbtn" href="#" class="navbar-link pull-right">Create Task</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+    <div class="container">
+	    <section>
+		    <div id="mainContent"></div>
+		</section>
+	</div>
+	<script type="text/x-handlebars-template" id="tasksListTemp">
+	   <div class="panel panel-primary">
+		   <div class="panel-heading">Tasks List</div>
+		   <div class="panel-body" id="tasks">
+				{{#if this}}
+				{{#each this}}
+					<li class="list-group-item" id="{{id}}"><a  href="#">{{summary}}</a></li>
+				{{/each}}
+				 {{else}}
+					<span class="wel"> There are no tasks. </span>
+				{{/if}}
+		   </div>
+	   </div>
+	</script>
+	<script type="text/x-handlebars-template" id="createTaskTemp">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Create Task</div>
+			<div class="panel-body">
+				<form>
+					{{> createTask}}
+					<div class="pull-right">
+						<input id="createbtn" data-control="createButton" type="button" value="Submit" class="btn btn-primary">
+						<input type="reset" value="Cancel" class="btn btn-primary">
+					</div>
+				</form>
+			</div>
+		</div>
+	</script>
+    <script type="text/x-handlebars-template" id="createTask-partialTemp">
+	    <div class="form-group">
+		    <label for="summary" class="form-label">Summary</label>
+		    <input name="summary" id="summary" class="form-control" placeholder="Summary"/>
+	    </div>
+	    <div class="form-group">
+		    <label for="priority" class="form-label">Priority</label>
+		    <select name="priority" id="priority" class="form-control">
+			    <option value="Blocker"> Blocker </option>
+			    <option value="Critical"> Critical </option>
+			    <option value="Major"> Major </option>
+			    <option value="Minor"> Minor </option>
+		    </select>
+	    </div>
+	    <div class="form-group">
+		    <label for="dueDate" class="form-label">Due Date</label>
+		    <input type="date" class="form-control" placeholder="Select date" name="dueDate" id="dueDate"/>
+	    </div>
+	    <div class="form-group">
+		    <label for="description" class="form-label">Description</label>
+		    <textarea class="form-control" placeholder="Description" name="description" id="description"></textarea>
+	    </div>
+	    <div class="form-group">
+		    <label for="estimateTime" class="form-label">Original Estimate</label>
+		    <input type="text" class="form-control" placeholder="Original Estimate Time" name="estimateTime" id="estimateTime" />
+	    </div>
+    </script>
+	<script type="text/x-handlebars-template" id="taskDetailsTemp">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Task Details</div>
+			<div class="panel-body" id="taskDetails">
+				<h2 class="txt-info">{{ summary }}</h2>
+				<div class="btn-group">
+					<button type="button" id="editbtn" class="btn btn-default" ><span class="glyphicon glyphicon-pencil">Edit</span></button>
+					<button type="button" id="resolvebtn" class="btn btn-default">Resolve Task</button>
+					<button type="button" id="closebtn" class="btn btn-default">Close Task</button>
+				</div>
+				<div class="well">
+					<div >
+						<label>Priority :</label>
+						<span> {{ priority }}</span>
+					</div>
+					<div >
+						<label  >Due Date :</label>
+						<span> {{ dueDate }}</span>
+					</div>
+					<div >
+						<label  >Status :</label>
+						<span> {{ status }}</span>
+					</div>
+					<div>
+						<label>Description :</label>
+						<span> {{ description }}</span>
+					</div>
+					<div >
+						<label>Estimate Time :</label>
+					<span> {{estimateTime }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
+	<script type="text/x-handlebars-template" id="editTaskTemp">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Update Task</div>
+			<div class="panel-body">
+				<form>
+					{{> createTask}}
+					<div class="pull-right">
+						<input id="updatebtn" data-control="createButton" type="button" value="Update" class="btn btn-primary">
+						<input type="reset" value="Cancel" class="btn btn-primary">
+					</div>
+				</form>
+			</div>
+		</div>
+	</script>
+</body>
+</html>
