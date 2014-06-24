@@ -4,11 +4,16 @@
 module.exports = function(grunt){
     (require('load-grunt-tasks'))(grunt);
     grunt.registerTask('serve',['connect:server']);
-    grunt.registerTask('build',['bower','concurrent:build']);
+    grunt.registerTask('build',['clean','bower','concurrent:build']);
     grunt.registerTask('default',['build','concurrent:mini']);
     grunt.registerTask('all',['bower','default']);
     grunt.initConfig({
         pkg:grunt.file.readJSON('package.json'),
+        clean:{
+            build:{
+                src:['build/']
+            }
+        },
         bower: {
             install:{
                 options:{
@@ -37,7 +42,7 @@ module.exports = function(grunt){
         copy:{
             main:{
                 files:[
-                    {expand:true,src:['src/**/*.html'],dest:'build/'}
+                    {expand:true,src:['src/*.html'],dest:'build/'}
                 ]
             }
         },
@@ -49,7 +54,20 @@ module.exports = function(grunt){
                 }
             }
         },
+        handlebars:{
+            compile:{
+                options:{
+                    namespace: 'JST'
+                }
+            }
+        },
+        concat:{
+            dist:{
+                src: ['src/js/tasks.js','src/js/!(tasks)*.js'],
+                dest: 'build/js/all.min.js'
+            }
 
+        },
         uglify:{
             options:{
                 mangle:false,
@@ -57,8 +75,8 @@ module.exports = function(grunt){
             },
             lib:{
                 files:{
-                    'build/js/lib.min.js':['build/lib/jquery/jquery.js','build/lib/bootstrap/bootstrap.js', 'build/lib/lodash/lodash.compat.js'],
-                    'build/js/all.min.js' : ['src/js/*.js']
+                    'build/js/lib.min.js':['build/lib/jquery/jquery.js','build/lib/bootstrap/bootstrap.js', 'build/lib/lodash/lodash.compat.js','build/lib/handlebars/handlebars.js']
+
                 }
             }
         },
@@ -79,7 +97,7 @@ module.exports = function(grunt){
             },
             htmlCssJs: {
                 files: ['src/js/*.js', 'src/**/*.html', 'src/**/*.css'],
-                tasks: ['cssmin','uglify']
+                tasks: ['cssmin','concat']
             },
             configFiles:{
                 files:['Gruntfile.js','karma.conf.js'],
@@ -93,7 +111,7 @@ module.exports = function(grunt){
             }
         },
         concurrent: {
-            build: ['newer:cssmin', 'newer:uglify', 'newer:jshint','newer:copy'],
+            build: ['newer:cssmin','newer:concat', 'newer:uglify', 'newer:jshint','newer:copy'],
             mini: ['serve', 'watch','karma:spec'],
             options: {
                 logConcurrentOutput: true
